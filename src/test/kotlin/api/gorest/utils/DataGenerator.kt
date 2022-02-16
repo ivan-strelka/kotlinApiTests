@@ -3,15 +3,15 @@ package api.gorest.utils
 import api.gorest.constants.Gender
 import api.gorest.constants.Status
 
-fun createRandomEmail(): String {
+fun getRandomEmail(): String {
     return faker.name().firstName() + faker.random().nextInt(1, Int.MAX_VALUE) + "@" + faker.name().username() + ".com"
 }
 
-fun createRandomInt(): Int {
+fun getRandomInt(): Int {
     return faker.number().numberBetween(1, Int.MAX_VALUE)
 }
 
-fun createRandomName(): String {
+fun getRandomName(): String {
     return faker.name().firstName()
 }
 

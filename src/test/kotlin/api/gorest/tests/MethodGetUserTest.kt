@@ -24,7 +24,7 @@ import java.util.stream.Stream
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DisplayName("Tests method GET -> `Get user details` ")
+@DisplayName("Tests method GET /public/v2/users -> `Get user details` ")
 class MethodGetUserTest : BaseTest() {
 
     @DisplayName("Checking the size of a data array")
@@ -41,6 +41,7 @@ class MethodGetUserTest : BaseTest() {
         assertThat(userResponse.size, equalTo(20))
         // or check `greaterThan` if we have strict requirements
         assertThat(userResponse.size, Matchers.greaterThan(15))
+        assertThat(userResponse.size, Matchers.lessThan(30))
     }
 
     @ParameterizedTest(name = "#{index} - Incorrect path parameter in the request -> GET /user/{0}")

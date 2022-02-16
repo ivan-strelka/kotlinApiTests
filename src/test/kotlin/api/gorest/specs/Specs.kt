@@ -23,6 +23,7 @@ fun requestSpec(): RequestSpecification? {
 
     return RequestSpecBuilder()
         .setAuth(authScheme)
+        .log(LogDetail.ALL)
         .addFilter(AllureRestAssured())
         .setBaseUri(BASE_URL)
         .setBasePath(BASE_PATH)
@@ -61,6 +62,21 @@ fun responseSpecError400(): ResponseSpecification? {
     return ResponseSpecBuilder()
         .log(LogDetail.ALL)
         .expectStatusCode(HTTP_BAD_REQUEST)
+        .build()
+}
+
+fun responseSpecError401(): ResponseSpecification? {
+    return ResponseSpecBuilder()
+        .log(LogDetail.ALL)
+        .expectStatusCode(HTTP_UNAUTHORIZED)
+        .build()
+}
+
+fun responseSpecError422(): ResponseSpecification? {
+    return ResponseSpecBuilder()
+        .log(LogDetail.ALL)
+        .expectStatusCode(422)
+        .expectHeaders(allHeadears422())
         .build()
 }
 
@@ -170,6 +186,24 @@ fun allHeadears204(): Map<String, Any> {
         "X-Permitted-Cross-Domain-Policies" to "none",
         "Cache-Control" to "no-cache",
         "Referrer-Policy" to "strict-origin-when-cross-origin",
+        "Vary" to "Origin"
+
+    )
+
+}
+
+fun allHeadears422(): Map<String, Any> {
+    return mapOf(
+        "Server" to "nginx",
+        "Connection" to "keep-alive",
+        "X-Frame-Options" to "SAMEORIGIN",
+        "X-XSS-Protection" to "0",
+        "X-Content-Type-Options" to "nosniff",
+        "X-Download-Options" to "noopen",
+        "X-Permitted-Cross-Domain-Policies" to "none",
+        "Cache-Control" to "no-cache",
+        "Referrer-Policy" to "strict-origin-when-cross-origin",
+        "Content-Type" to "application/json; charset=utf-8",
         "Vary" to "Origin"
 
     )

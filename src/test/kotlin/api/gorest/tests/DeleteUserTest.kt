@@ -20,7 +20,7 @@ class DeleteUserTest : BaseTest() {
     internal fun nameDel() {
         installSpecification(requestSpec(), responseSpecOK201())
         val body = createUserBodyActiveFemale()
-        val userResp = sendPostReqAndGetRespToDTO(body)
+        val userResp = sendPostReqAndGetRespAndGetDTO(body)
         assertFullBodyAfterPost(userResp, body)
         val fullUSerPath = getFullPathForPut(userResp)
 
