@@ -3,7 +3,7 @@ package api.gorest.tests
 import api.gorest.constants.FEATURE_API
 import api.gorest.constants.MESSAGE
 import api.gorest.constants.USER_ENDPOINT
-import api.gorest.models.UserGet
+import api.gorest.models.User
 import api.gorest.utils.*
 import io.qameta.allure.Description
 import io.qameta.allure.Feature
@@ -24,8 +24,8 @@ import java.util.stream.Stream
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DisplayName("Tests method GET /public/v2/users -> `Get user details` ")
-class MethodGetUserTest : BaseTest() {
+@DisplayName("Tests method GET /public/v2/users/:id -> `Get user details` ")
+class GetUserTest : BaseTest() {
 
     @DisplayName("Checking the size of a data array")
     @Description("Get 20 objects with fields: id, name, email, gender, status")
@@ -34,9 +34,9 @@ class MethodGetUserTest : BaseTest() {
     @Test
     fun correctUserNumberTest() {
         installSpecification(requestSpec(), responseSpecOK200())
-        val userResponse = sendGetReq("$USER_ENDPOINT")
+        val userResponse = sendGetReq(USER_ENDPOINT)
             .assertStatusCode(SC_OK)
-            .extract().jsonPath().getList<UserGet>(".", UserGet::class.java)
+            .extract().jsonPath().getList<User>(".", User::class.java)
 
         assertThat(userResponse.size, equalTo(20))
         // or check `greaterThan` if we have strict requirements

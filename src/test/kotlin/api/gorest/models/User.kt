@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class UserGet(
+data class User(
 
     @field:JsonProperty("gender")
     val gender: String? = null,
@@ -26,7 +26,7 @@ data class UserGet(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as UserGet
+        other as User
 
         if (gender != other.gender) return false
         if (name != other.name) return false

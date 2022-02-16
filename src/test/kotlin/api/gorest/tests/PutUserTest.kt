@@ -6,16 +6,20 @@ import api.gorest.utils.*
 import io.qameta.allure.Feature
 import io.qameta.allure.Severity
 import io.qameta.allure.SeverityLevel
-import org.hamcrest.MatcherAssert
-import org.hamcrest.Matchers
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.notNullValue
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("Tests method PUT /public/v2/users/:id -> `Update user details by id` ")
 class PutUserTest : BaseTest() {
 
+    @DisplayName("Check update name, email, status field and change male user")
     @Feature(FEATURE_API)
     @Severity(SeverityLevel.CRITICAL)
     @Test
-    internal fun putTestByJsonPath() {
+    internal fun createActiveUserBodyTest() {
         installSpecification(requestSpec(), responseSpecOK201())
         val body = createUserBodyInactiveMale()
         val userResp = createUserPostRequest(body)
@@ -23,7 +27,7 @@ class PutUserTest : BaseTest() {
 
         val id = userResp.getString(ID)
 
-        val fullUSerPath = "$USER_ENDPOINT" + id
+        val fullUSerPath = USER_ENDPOINT + id
 
         val updateBody = createActiveUserBodyPut()
 
@@ -31,15 +35,16 @@ class PutUserTest : BaseTest() {
 
         val updateBodyResp = sendUserPutRequest(updateBody, fullUSerPath).extract().jsonPath()
 
-        MatcherAssert.assertThat(updateBodyResp.getString(NAME), Matchers.equalTo(updateBody[NAME]))
-        MatcherAssert.assertThat(updateBodyResp.getString(EMAIL), Matchers.equalTo(updateBody[EMAIL]))
-        MatcherAssert.assertThat(updateBodyResp.getString(STATUS), Matchers.equalTo(updateBody[STATUS]))
-        MatcherAssert.assertThat(updateBodyResp.getString(GENDER), Matchers.equalTo(userResp.getString(GENDER)))
-        MatcherAssert.assertThat(updateBodyResp.getString(ID), Matchers.notNullValue())
+        assertThat(updateBodyResp.getString(NAME), equalTo(updateBody[NAME]))
+        assertThat(updateBodyResp.getString(EMAIL), equalTo(updateBody[EMAIL]))
+        assertThat(updateBodyResp.getString(STATUS), equalTo(updateBody[STATUS]))
+        assertThat(updateBodyResp.getString(GENDER), equalTo(userResp.getString(GENDER)))
+        assertThat(updateBodyResp.getString(ID), notNullValue())
 
 
     }
 
+    @DisplayName("Check update name, email, status field and change active to inactive male user")
     @Feature(FEATURE_API)
     @Severity(SeverityLevel.CRITICAL)
     @Test
@@ -65,6 +70,7 @@ class PutUserTest : BaseTest() {
 
     }
 
+    @DisplayName("Check update name, email, status field and change inactive to active male user")
     @Feature(FEATURE_API)
     @Severity(SeverityLevel.CRITICAL)
     @Test

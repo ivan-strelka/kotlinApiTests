@@ -7,15 +7,13 @@ import io.qameta.allure.Step
 import io.restassured.RestAssured
 import io.restassured.response.Response
 import io.restassured.response.ValidatableResponse
-import org.hamcrest.MatcherAssert
-import org.hamcrest.MatcherAssert.*
-import org.hamcrest.Matchers
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import java.util.*
 
 val faker = Faker(Locale("en-US"))
 
-@Step("Создаём body active female для запроса -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
+@Step("Create a body active female for the request -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
 fun createUserBodyActiveFemale(): Map<String, Any?> {
 
     return mapOf(
@@ -24,7 +22,7 @@ fun createUserBodyActiveFemale(): Map<String, Any?> {
     )
 }
 
-@Step("Создаём body inactive female для запроса -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
+@Step("Create a body inactive female for the request -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
 fun createUserBodyInactiveFemale(): Map<String, Any?> {
 
     return mapOf(
@@ -33,7 +31,7 @@ fun createUserBodyInactiveFemale(): Map<String, Any?> {
     )
 }
 
-@Step("Создаём body inactive male для запроса -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
+@Step("Create body inactive male for request -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
 fun createUserBodyInactiveMale(): Map<String, Any?> {
 
     return mapOf(
@@ -42,7 +40,7 @@ fun createUserBodyInactiveMale(): Map<String, Any?> {
     )
 }
 
-@Step("Создаём полное body active male для запроса -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
+@Step("Create full body active male for request -> $BASE_URL$BASE_PATH$USER_ENDPOINT")
 fun createUserBodyActiveMale(): Map<String, Any?> {
     return mapOf(
         ID to getRandomInt(), GENDER to getGenderMale(), NAME to getRandomName(),
@@ -50,8 +48,7 @@ fun createUserBodyActiveMale(): Map<String, Any?> {
     )
 }
 
-
-@Step("Ответ содержит ожидаемые заголовки (Transfer-Encoding, Connection, Server, Content-Type)")
+@Step("Response contains expected headers -> Transfer-Encoding, Connection, Server, Content-Type")
 fun ValidatableResponse.assertHeadersIsCorrect(): ValidatableResponse {
     return this.assertThat()
         .header("Connection", "keep-alive")
@@ -62,41 +59,41 @@ fun ValidatableResponse.assertHeadersIsCorrect(): ValidatableResponse {
         .header("x-powered-by", "Express")
 }
 
-@Step("Ответ имеет HTTP-код {code}")
+@Step("The response has an HTTP code {code}")
 fun ValidatableResponse.assertStatusCode(code: Int): ValidatableResponse {
     return this.assertThat().statusCode(code)
 }
 
-@Step("Отправляем GET $BASE_URL")
+@Step("Send GET request -> $BASE_URL")
 fun getToBaseUrl(): Response {
     return RestAssured.given().get(BASE_URL)
 }
 
-@Step("Отправляем GET {path}")
+@Step("Send GET request -> {path}")
 fun sendGetReq(path: String): ValidatableResponse {
     return RestAssured.given().get(path).then()
 }
 
-@Step("Проверяем что тело ответа пустое")
+@Step("Checking the response body is empty")
 fun ValidatableResponse.checkEmptyBody(): ValidatableResponse {
     return this.assertThat().body("isEmpty()", `is`(true))
 }
 
-@Step("Создаём active body для PUT запроса")
+@Step("Create an active body for a PUT request")
 fun createActiveUserBodyPut(): Map<String, Any?> {
     return mapOf(
         NAME to getRandomName(), EMAIL to getRandomEmail(), STATUS to getActiveStatus()
     )
 }
 
-@Step("Создаём inactive body для PUT запроса c body")
+@Step("Create inactive body for PUT request from body")
 fun createInactiveUserBodyPut(): Map<String, Any?> {
     return mapOf(
         NAME to getRandomName(), EMAIL to getRandomEmail(), STATUS to getInactiveStatus()
     )
 }
 
-@Step("Создаём сущность User в POST запросе c body -> {body}")
+@Step("Create the User entity in the POST request with body -> {body}")
 fun createUserPostRequest(body: Map<String, Any?>): ValidatableResponse {
     return RestAssured.given()
         .body(body)
@@ -105,7 +102,7 @@ fun createUserPostRequest(body: Map<String, Any?>): ValidatableResponse {
         .log().all()
 }
 
-@Step("Создаём сущность User в POST запросе c body -> {body}")
+@Step("Create the User entity in the POST request with body -> {body}")
 fun createUserPostRequest(body: String): ValidatableResponse {
     return RestAssured.given()
         .body(body)
@@ -115,13 +112,13 @@ fun createUserPostRequest(body: String): ValidatableResponse {
 }
 
 
-@Step("Получаем полный URL с id для PUT запроса {userResp}")
+@Step("Get full URL with id for PUT request -> {userResp}")
 fun getFullPathForPut(userResp: UserPayload): String {
     val id = userResp.id
     return USER_ENDPOINT + id
 }
 
-@Step("Отправляем PUT запрос с {updateBody} и {fullUSerPath} параметрами")
+@Step("Sending a PUT request with {updateBody} and {fullUSerPath} parameters")
 fun sendUserPutRequest(updateBody: Map<String, Any?>, fullUSerPath: String): ValidatableResponse {
     return RestAssured.given()
         .body(updateBody)
@@ -130,7 +127,7 @@ fun sendUserPutRequest(updateBody: Map<String, Any?>, fullUSerPath: String): Val
         .log().all()
 }
 
-@Step("Проверяем всё тело ответа после POST запроса создания сущности User -> {userPostResp}, {bodyPostReq}")
+@Step("Checking the entire response body after the POST request to create the User entity -> {userPostResp}, {bodyPostReq}")
 fun assertFullBodyAfterPost(userPostResp: UserPayload, bodyPostReq: Map<String, Any?>) {
     assertThat(userPostResp.name, equalTo(bodyPostReq[NAME]))
     assertThat(userPostResp.email, equalTo(bodyPostReq[EMAIL]))
@@ -140,7 +137,7 @@ fun assertFullBodyAfterPost(userPostResp: UserPayload, bodyPostReq: Map<String, 
     assertThat(userPostResp.gender, isOneOf(FEMALE, MALE)) //Ex FYI
 }
 
-@Step("Проверяем всё тело ответа после POST запроса создания сущности User -> {updateBodyResp}, {updateBody}, {userPostResp} ")
+@Step("Checking the entire response body after the POST request to create the User entity -> {updateBodyResp}, {updateBody}, {userPostResp} ")
 fun assertFullBodyAfterPut(updateBodyResp: UserPayload, updateBody: Map<String, Any?>, userPostResp: UserPayload) {
     assertThat(updateBodyResp.name, equalTo(updateBody[NAME]))
     assertThat(updateBodyResp.email, equalTo(updateBody[EMAIL]))
@@ -149,12 +146,12 @@ fun assertFullBodyAfterPut(updateBodyResp: UserPayload, updateBody: Map<String, 
     assertThat(updateBodyResp.id, equalTo(userPostResp.id))
 }
 
-@Step("Отправляем POST запрос на создание сущности User {body} и извлекаем запрос в класс ")
+@Step("We send a POST request to create the User {body} entity and extract the request to the class ")
 fun sendPostReqAndGetRespAndGetDTO(body: Map<String, Any?>): UserPayload {
     return createUserPostRequest(body).extract().body().`as`(UserPayload::class.java)
 }
 
-@Step("Отправляем DELETE запрос на удаление сущности User -> {fullUSerPath}")
+@Step("Sending a DELETE request to delete the User entity -> {fullUSerPath}")
 fun sendDeleteReq(fullUSerPath: String): ValidatableResponse {
     return RestAssured.given().delete(fullUSerPath).then()
 }

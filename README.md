@@ -31,3 +31,9 @@ deleting the data.
 5. Run command in terminal to create allure report for a last test run `gradle allureServe`
 6. Enjoy test run results
 
+### Some examples test run results in allure report:
+
+![Allure](files/Screenshot_3.png)
+![Allure](files/Screenshot_4.png)
+![Allure](files/Screenshot_5.png)
+

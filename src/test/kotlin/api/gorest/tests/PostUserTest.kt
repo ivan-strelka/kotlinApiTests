@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS) // for Parametrize test ??????????????
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Tests method POST /public/v2/users -> `Create a new user` ")
 class PostUserTest : BaseTest() {
 
@@ -722,7 +722,7 @@ class PostUserTest : BaseTest() {
         val jsonPathResp = userPostResp.extract().jsonPath()
 
         assertThat(jsonPathResp.getString(O_FIELD), equalTo(EMAIL))
-        assertThat(jsonPathResp.getString(O_MESSAGE), equalTo(INVANID_EMAIL))
+        assertThat(jsonPathResp.getString(O_MESSAGE), equalTo(INVALID_EMAIL))
     }
 
     private fun argsProviderFactory(): Stream<String>? {
