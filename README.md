@@ -8,15 +8,19 @@ An example of tests that can be implemented to test a REST API service that expo
 
 ### Endpoints
 
-#### Method `GET /public/v2/users` get an array of objects. We check the total number of users, the total number of pages, limits.
+Method `GET /public/v2/users` get an array of objects. We check the total number of users, the total number of pages,
+limits.
 
-#### Method `POST /public/v2/users` create a new user. After creating a new user, the system confirms that the input data and output data match and sends the created object.
+Method `POST /public/v2/users` create a new user. After creating a new user, the system confirms that the input data and
+output data match and sends the created object.
 
-#### Method `GET /public/v2/users/:id`: get data of a specific user by id
+Method `GET /public/v2/users/:id`: get data of a specific user by id
 
-#### Method `PUT|PATCH /public/v2/users/:id`: method to change user data. After the user edits the data, the system will confirm that the input data and the output data are the same.
+Method `PUT|PATCH /public/v2/users/:id`: method to change user data. After the user edits the data, the system will
+confirm that the input data and the output data are the same.
 
-#### Method `DELETE /public/v2/users/:id` method deletes a user. We check the response code and response message after deleting the data.
+Method `DELETE /public/v2/users/:id` method deletes a user. We check the response code and response message after
+deleting the data.
 
 ## Running the tests
 
