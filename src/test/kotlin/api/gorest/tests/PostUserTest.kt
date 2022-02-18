@@ -570,7 +570,7 @@ class PostUserTest : BaseTest() {
     @DisplayName("Checking char false data types of the name field")
     @Feature(FEATURE_API)
     @Severity(SeverityLevel.CRITICAL)
-//    @Test
+    @Test
     internal fun checkingCharDataTypesNameFieldTest() {
         installSpecification(requestSpec(), responseSpecOK201())
         val bodyPostReq = mapOf(
